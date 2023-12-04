@@ -60,7 +60,7 @@ generate_static_network() {
 	fi
 }
 
-addr_offset=2
+addr_offset=11
 generate_network() {
 	local ifname macaddr protocol type ipaddr netmask
 
@@ -74,7 +74,7 @@ generate_network() {
 
 	# force bridge for multi-interface devices (and lan)
 	case "$1:$ifname" in
-		*\ * | lan:*) type="bridge" ;;
+		*\ * | lan:* | wan:*) type="bridge" ;;
 	esac
 
 	uci -q batch <<-EOF
@@ -89,13 +89,14 @@ generate_network() {
 	uci -q batch <<-EOF
 		set network.$1.type='bridge'
 		set network.$1.proto='static'
-		set network.$1.ipaddr='192.168.4.1'
+		set network.$1.ipaddr='192.168.10.1'
 		set network.$1.netmask='255.255.255.0'
 		set network.$1.ip6assign='60'
 	EOF
 	;;
 	wan)
 	uci -q batch <<-EOF
+		set network.$1.type='bridge'
 		set network.$1.proto='dhcp'
 	EOF
 	uci -q batch <<-EOF
@@ -145,7 +146,7 @@ generate_network() {
 		static)
 			local ipad
 			case "$1" in
-				lan) ipad=${ipaddr:-"192.168.4.1"} ;;
+				lan) ipad=${ipaddr:-"192.168.10.1"} ;;
 				*) ipad=${ipaddr:-"192.168.$((addr_offset++)).1"} ;;
 			esac
 
