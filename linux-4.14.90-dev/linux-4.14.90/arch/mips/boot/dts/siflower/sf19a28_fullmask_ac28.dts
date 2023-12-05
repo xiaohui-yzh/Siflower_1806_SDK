@@ -68,6 +68,11 @@
 &uart0 {
 	status = "okay";
 };
+
+&uart1 {
+	status = "okay";
+};
+
 &timer0 {
 	status = "okay";
 };
