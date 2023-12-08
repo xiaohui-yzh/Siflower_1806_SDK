@@ -103,12 +103,24 @@
 	};
 };
 
+/* ctrl wifi-led by trigger */
+/*
+&leds {
+    status = "okay";
+    wifi-led {
+        label = "wifi-led";
+        gpios = <&gpio 3 1>;
+        linux,default-trigger = "none";
+    };
+};
+*/
+
 &wifi_lb {
 	status = "okay";
 
 	#address-cells = <1>;
 	#size-cells = <0>;
-	gpio-leds = <&gpio 12 0>;
+	gpio-leds = <&gpio 3 1>; /* ctrl wifi-led by wifi driver */
 	smp-affinity = <2>;
 };
 
@@ -117,6 +129,6 @@
 
 	#address-cells = <1>;
 	#size-cells = <0>;
-	gpio-leds = <&gpio 12 0>;
+	gpio-leds = <&gpio 3 1>; /* ctrl wifi-led by wifi driver */
 	smp-affinity = <3>;
 };
