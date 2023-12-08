@@ -97,7 +97,7 @@
 	restart@27 {
 		label = "Key Restart";
 		linux,code = <0x198>;
-		gpios = <&gpio 27 0>;
+		gpios = <&gpio 27 1>; /* active_low */
 		poll-interval = <10>;
 		debounce-interval = <20>;
 	};
