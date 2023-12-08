@@ -1,0 +1,31 @@
+Index: u-boot-2018.03/tools/env/fw_env_private.h
+===================================================================
+--- u-boot-2018.03.orig/tools/env/fw_env_private.h
++++ u-boot-2018.03/tools/env/fw_env_private.h
+@@ -43,13 +43,22 @@
+ #endif
+ 
+ #ifndef CONFIG_BOOTDELAY
+-#define CONFIG_BOOTDELAY	5	/* autoboot after 5 seconds	*/
++#define CONFIG_BOOTDELAY	2	/* autoboot after 2 seconds	*/
+ #endif
+ 
+ #ifndef CONFIG_BOOTCOMMAND
+ #define CONFIG_BOOTCOMMAND						\
+-	"bootp; "							\
+-	"setenv bootargs root=/dev/nfs nfsroot=${serverip}:${rootpath} "\
+-	"ip=${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}::off; "\
++	"sf probe 0 33000000; "						\
++	"sf read 0x81000000 0xa0000 0x300000; "		\
+ 	"bootm"
+ #endif
++
++#ifndef CONFIG_EXTRA_ENV_SETTINGS
++#define CONFIG_EXTRA_ENV_SETTINGS               \
++    "ethact=sf_eth1\0"                          \
++    "fdtcontroladdr=87ea379c\0"                 \
++    "preboot=btn_httpd_detect 192.168.4.1\0"    \
++    "stderr=serial@8300000\0"                   \
++    "stdin=serial@8300000\0"                    \
++    "stdout=serial@8300000\0"
++#endif
